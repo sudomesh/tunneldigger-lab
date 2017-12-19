@@ -1,5 +1,7 @@
 # tunneldigger-lab
-experiments on digging tunnels
+experiments on digging tunnels 
+
+tested on ubuntu 16.04 LTS
 
 # prerequisites
 
@@ -60,7 +62,11 @@ where:
 
 Now, open another terminal and check the status of the tunnel by:
 
-1. inspecting the tunnel_hook.sh.log for recent entries of new sessions
+1. inspecting the tunnel_hook.sh.log for recent entries of new sessions. Expected entries are like
+```
+Mon Dec 18 21:29:28 PST 2017 [td-hook] session.up l2tp0
+Mon Dec 18 21:30:10 PST 2017 [td-hook] session.down l2tp0
+```
 2. run ```ip addr``` and verify that an interface ```l2tp0``` now exists. 
 3. also, open udp ports ```netstat -u``` and verify you see something like this:
 ```
@@ -77,4 +83,38 @@ Dec 17 13:24:12 xx td-client: Tunnel successfully established.
 Dec 17 13:24:21 xx td-client: Setting MTU to 1446
 ```
 5. the tunnel can be closed using CRTL-C in the original, or can be run in the background like any shell command.
+
+## digging a tunnel to your own computer
+
+To dig a tunnel to our own computer, you'll have to run your own broker. You can find instructions on how to do this at http://tunneldigger.readthedocs.io/en/latest/server.html .
+
+On starting the broker with default configuration, you should see something like:
+
+```
+$sudo /srv/tunneldigger/env_tunneldigger/bin/python -m tunneldigger_broker.main /srv/tunneldigger/tunneldigger/broker/l2tp_broker.cfg
+[INFO/tunneldigger.broker] Initializing the tunneldigger broker.
+[INFO/tunneldigger.broker] Maximum number of tunnels is 1024.
+[INFO/tunneldigger.broker] Tunnel identifier base is 100.
+[INFO/tunneldigger.broker] Tunnel port base is 20000.
+[INFO/tunneldigger.broker] Namespace is default.
+[INFO/tunneldigger.broker] Listening on 127.0.0.1:53.
+[INFO/tunneldigger.broker] Listening on 127.0.0.1:123.
+[INFO/tunneldigger.broker] Listening on 127.0.0.1:8942.
+[INFO/tunneldigger.broker] Broker initialized.
+```
+
+Now, repeat [digging a tunnel](#digging-a-tunnel) using broker config localhost:8942 . 
+
+Now, you should see the following in the broker log:
+
+```
+[INFO/tunneldigger.broker] Creating tunnel (07105c7f-681f-4476-b5aa-5146c6e579de) with id 100.
+[INFO/tunneldigger.tunnel] Set tunnel 100 MTU to 1446.
+```
+
+on closing the client, the following is logged:
+
+```
+[INFO/tunneldigger.tunnel] Closing tunnel 100 after 42 seconds
+```
 
