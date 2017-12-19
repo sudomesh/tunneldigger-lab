@@ -1,2 +1,80 @@
 # tunneldigger-lab
 experiments on digging tunnels
+
+# prerequisites
+
+```
+sudo apt get update
+sudo apt install cmake libnl-3-dev libnl-genl-3-dev
+```
+
+# install
+## clone
+First clone and build the tunneldigger client
+
+```
+git clone https://github.com/wlanslovenija/tunneldigger.git
+```
+
+## compile
+```
+cd tunneldigger/client
+cmake .
+```
+cmake may provide an output like:
+```
+-- Checking for module 'libasyncns'
+--   No package 'libasyncns' found
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/user/tunneldigger/client
+```
+do not worry about the missing package, the libasyncns source is included in the tunneldigger repository, so it does not need to be installed globally.  
+now you can run make, 
+```
+make 
+```
+which should produce and output like:
+```
+Scanning dependencies of target tunneldigger
+[ 33%] Building C object CMakeFiles/tunneldigger.dir/l2tp_client.c.o
+[ 66%] Building C object CMakeFiles/tunneldigger.dir/libasyncns/asyncns.c.o
+[100%] Linking C executable tunneldigger
+[100%] Built target tunneldigger
+```
+
+and the file [tunneldigger-lib]/tunneldigger/client/tunneldigger should exist.
+
+# digging a tunnel
+Before digging a tunnel, check interfaces using ```ip addr```, there should be no l2tp interface yet. Check udp ports using ```netstat -u```, this should be empty. Check syslog using ```cat /var/log/syslog | grep td-client```, this should not contain any recent entries. 
+
+Now run 
+```sudo $PWD/tunneldigger/client/tunneldigger -b exit.sudomesh.org:8942 -u 07105c7f-681f-4476-b5aa-5146c6e579de -i l2tp0 -s $PWD/tunnel_hook.sh```
+
+where:
+
+1. exit.sudomesh.org:8942 is the end of the tunnel you are attempting to dig also known as the "broker"
+2. 07105c7f-681f-4476-b5aa-5146c6e579de is some unique identifier aka a uuid
+3. l2tp0 is the interface that will be created for the tunnel
+4. tunnel_hook.sh is the shell script (aka "hook") that is called by the tunnel digger on creating/destroying a session.
+
+Now, open another terminal and check the status of the tunnel by:
+
+1. inspecting the tunnel_hook.sh.log for recent entries of new sessions
+2. run ```ip addr``` and verify that an interface ```l2tp0``` now exists. 
+3. also, open udp ports ```netstat -u``` and verify you see something like this:
+```
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+udp        0      0 xxxx:42862         unassigned.psychz.:8942 ESTABLISHED
+```
+4. verify syslog entries using ```cat /var/log/syslog | grep td-client``` - expecting something like:
+```
+Dec 17 13:24:06 xx td-client: Performing broker selection...
+Dec 17 13:24:08 xx td-client: Broker usage of exit.sudomesh.org:8942: 1471
+Dec 17 13:24:08 xx td-client: Selected exit.sudomesh.org:8942 as the best broker.
+Dec 17 13:24:12 xx td-client: Tunnel successfully established.
+Dec 17 13:24:21 xx td-client: Setting MTU to 1446
+```
+5. the tunnel can be closed using CRTL-C in the original, or can be run in the background like any shell command.
+
