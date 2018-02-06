@@ -88,7 +88,7 @@ Dec 17 13:24:21 xx td-client: Setting MTU to 1446
 
 ## digging a tunnel to your own computer
 
-To dig a tunnel to our own computer, you'll have to run your own broker. You can find instructions on how to do this at http://tunneldigger.readthedocs.io/en/latest/server.html .
+To dig a tunnel to our own computer, you'll have to run your own broker. You can find instructions on how to do this at http://tunneldigger.readthedocs.io/en/latest/server.html . Note that these instructions use the latest tunneldigger broker - the broker running on the sudomesh exit node (5 Feb 2018) is reportedly github.com/sudomesh/tunneldigger/blob/f05d9adc170929f883600c3637b66b9c60705630/ with install instructions at https://github.com/sudomesh/exitnode/blob/master/provision.sh#L72 . 
 
 On starting the broker with default configuration, you should see something like:
 
