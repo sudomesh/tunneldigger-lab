@@ -11,11 +11,35 @@ sudo apt install cmake libnl-3-dev libnl-genl-3-dev build-essential pkg-config
 ```
 
 # install
+## kernel modules
+You have to load some kernel modules l2tp_*
+
+```
+sudo modprobe l2tp_netlink
+sudo modprobe l2tp_eth
+sudo modprobe l2tp_core
+```
+
+Verify that the modules where loaded by running ```sudo lsmod | grep l2tp```, result should be something like:
+
+```
+$ sudo lsmod | grep l2tp
+l2tp_eth               16384  0
+l2tp_ppp               24576  0
+l2tp_netlink           20480  2 l2tp_eth,l2tp_ppp
+l2tp_core              32768  3 l2tp_eth,l2tp_ppp,l2tp_netlink
+ip6_udp_tunnel         16384  1 l2tp_core
+udp_tunnel             16384  1 l2tp_core
+pppox                  16384  2 l2tp_ppp,pppoe
+```
+
+Also see http://tunneldigger.readthedocs.io/en/latest/server.html .
+
 ## clone
 First clone and build the tunneldigger client
 
 ```
-git clone https://github.com/wlanslovenija/tunneldigger.git
+git clone https://github.com/sudomesh/tunneldigger.git
 ```
 
 The version that is used in [firmware](https://github.com/sudomesh/sudowrt-firmware) can be found at https://github.com/sudomesh/nodewatcher-firmware-packages/blob/sudomesh/net/tunneldigger/Makefile . At time of writing https://github.com/sudomesh/tunneldigger was used, a fork of https://github.com/wlanslovenija/tunneldigger . The sudomesh fork does not run on ubuntu because of some library depedencies. 
@@ -23,7 +47,7 @@ The version that is used in [firmware](https://github.com/sudomesh/sudowrt-firmw
 ## compile
 ```
 cd tunneldigger/client
-cmake .
+make 
 ```
 cmake may provide an output like:
 ```
