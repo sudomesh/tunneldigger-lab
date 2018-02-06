@@ -15,10 +15,10 @@ sudo apt install cmake libnl-3-dev libnl-genl-3-dev
 First clone and build the tunneldigger client
 
 ```
-git clone https://github.com/sudomesh/tunneldigger.git
+git clone https://github.com/wlanslovenija/tunneldigger.git
 ```
 
-The version that is used in [firmware](https://github.com/sudomesh/sudowrt-firmware) can be found at https://github.com/sudomesh/nodewatcher-firmware-packages/blob/sudomesh/net/tunneldigger/Makefile . At time of writing https://github.com/sudomesh/tunneldigger was used, a fork of https://github.com/wlanslovenija/tunneldigger . 
+The version that is used in [firmware](https://github.com/sudomesh/sudowrt-firmware) can be found at https://github.com/sudomesh/nodewatcher-firmware-packages/blob/sudomesh/net/tunneldigger/Makefile . At time of writing https://github.com/sudomesh/tunneldigger was used, a fork of https://github.com/wlanslovenija/tunneldigger . The sudomesh fork does not run on ubuntu because of some library depedencies. 
 
 ## compile
 ```
