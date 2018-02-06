@@ -6,7 +6,7 @@ tested on ubuntu 16.04 LTS
 # prerequisites
 
 ```
-sudo apt get update
+sudo apt update
 sudo apt install cmake libnl-3-dev libnl-genl-3-dev
 ```
 
