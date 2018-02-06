@@ -88,7 +88,8 @@ Dec 17 13:24:21 xx td-client: Setting MTU to 1446
 
 ## digging a tunnel to your own computer
 
-To dig a tunnel to our own computer, you'll have to run your own broker. You can find instructions on how to do this at http://tunneldigger.readthedocs.io/en/latest/server.html . Note that these instructions use the latest tunneldigger broker - the broker running on the sudomesh exit node (5 Feb 2018) is reportedly github.com/sudomesh/tunneldigger/blob/f05d9adc170929f883600c3637b66b9c60705630/ with install instructions at https://github.com/sudomesh/exitnode/blob/master/provision.sh#L72 . 
+To dig a tunnel to our own computer, you'll have to run your own broker. You can find instructions on how to do this at http://tunneldigger.readthedocs.io/en/latest/server.html . Note that these instructions use the latest tunneldigger broker. See below for the (older) broker version that currently runs on sudomesh exist node.
+
 
 On starting the broker with default configuration, you should see something like:
 
@@ -119,4 +120,44 @@ on closing the client, the following is logged:
 ```
 [INFO/tunneldigger.tunnel] Closing tunnel 100 after 42 seconds
 ```
+
+## digging a tunnel to the current production broker
+The broker running on the sudomesh exit node (5 Feb 2018) is reportedly github.com/sudomesh/tunneldigger/blob/f05d9adc170929f883600c3637b66b9c60705630/ with install instructions at https://github.com/sudomesh/exitnode/blob/master/provision.sh#L72 .
+
+Here's some steps on how to get it running on ubuntu 16.04:
+
+```
+pip install netfilter
+pip install virtualenv
+
+git clone git@github.com:sudomesh/tunneldigger [tunneldigger_dir]
+cd [tunneldigger_dir]
+
+# copy some default config
+cp l2tp_broker.cfg.example l2tp_broker.cfg
+
+virtual_env broker/env_tunneldigger
+sudo broker/env_tunneldigger/bin/python -m broker.main broker/l2tp_broker.cfg
+```
+
+with resulting output something like:
+
+```
+
+udo broker/env_tunneldigger/bin/python -m broker.main broker/l2tp_broker.cfg
+[INFO/tunneldigger.broker] Initializing the tunneldigger broker.
+[INFO/tunneldigger.broker] Maximum number of tunnels is 1024.
+[INFO/tunneldigger.broker] Tunnel identifier base is 100.
+[INFO/tunneldigger.broker] Tunnel port base is 20000.
+[INFO/tunneldigger.broker] Namespace is default.
+[INFO/tunneldigger.broker] Listening on 127.0.0.1:53.
+[INFO/tunneldigger.broker] Listening on 127.0.0.1:123.
+[INFO/tunneldigger.broker] Listening on 127.0.0.1:8942.
+[INFO/tunneldigger.broker] Broker initialized.
+```
+
+
+
+sudo broker/env_tunneldigger/bin/python -m broker.main broker/l2tp_broker.cfg
+
 
