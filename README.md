@@ -8,6 +8,7 @@ tested on ubuntu 16.04 LTS
 ```
 sudo apt update
 sudo apt install cmake libnl-3-dev libnl-genl-3-dev build-essential pkg-config
+sudo apt install linux-image-extra-$(uname -r)
 ```
 
 # install
