@@ -33,7 +33,7 @@ udp_tunnel             16384  1 l2tp_core
 pppox                  16384  2 l2tp_ppp,pppoe
 ```
 
-If you'd like to automatically load the kernel modules on reboot, ```The system should be configured to load these modules at boot which is usually done by listing the modules in /etc/modules.```` For more information see http://tunneldigger.readthedocs.io/en/latest/server.html .
+If you'd like to automatically load the kernel modules on reboot, ```The system should be configured to load these modules at boot which is usually done by listing the modules in /etc/modules.``` For more information see http://tunneldigger.readthedocs.io/en/latest/server.html .
 
 ## clone
 First clone and build the tunneldigger client
