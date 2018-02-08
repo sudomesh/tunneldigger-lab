@@ -1,6 +1,8 @@
 # tunneldigger-lab
 experiments on digging tunnels 
 
+Why tunneldigger? See https://wlan-si.net/en/blog/2012/10/29/tunneldigger-the-new-vpn-solution/ .
+
 tested on ubuntu 16.04 LTS
 
 # prerequisites
@@ -156,12 +158,16 @@ pip install netfilter
 pip install virtualenv
 
 git clone git@github.com:sudomesh/tunneldigger [tunneldigger_dir]
-cd [tunneldigger_dir]/broker
+cd [tunneldigger_dir]
 
 # copy some default config
-cp l2tp_broker.cfg.example l2tp_broker.cfg
+cp broker/l2tp_broker.cfg.example broker/l2tp_broker.cfg
 
 virtualenv broker/env_tunneldigger
+
+# install dependencies
+broker/env_tunneldigger/bin/pip install -r broker/requirements.txt
+
 sudo broker/env_tunneldigger/bin/python -m broker.main broker/l2tp_broker.cfg
 ```
 
@@ -169,7 +175,7 @@ with resulting output something like:
 
 ```
 
-udo broker/env_tunneldigger/bin/python -m broker.main broker/l2tp_broker.cfg
+$sudo broker/env_tunneldigger/bin/python -m broker.main broker/l2tp_broker.cfg
 [INFO/tunneldigger.broker] Initializing the tunneldigger broker.
 [INFO/tunneldigger.broker] Maximum number of tunnels is 1024.
 [INFO/tunneldigger.broker] Tunnel identifier base is 100.
