@@ -156,12 +156,12 @@ pip install netfilter
 pip install virtualenv
 
 git clone git@github.com:sudomesh/tunneldigger [tunneldigger_dir]
-cd [tunneldigger_dir]
+cd [tunneldigger_dir]/broker
 
 # copy some default config
 cp l2tp_broker.cfg.example l2tp_broker.cfg
 
-virtual_env broker/env_tunneldigger
+virtualenv broker/env_tunneldigger
 sudo broker/env_tunneldigger/bin/python -m broker.main broker/l2tp_broker.cfg
 ```
 
