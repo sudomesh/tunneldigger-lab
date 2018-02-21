@@ -113,15 +113,38 @@ Dec 17 13:24:21 xx td-client: Setting MTU to 1446
 ```
 5. the tunnel can be closed using CRTL-C in the original, or can be run in the background like any shell command.
 
-## digging a tunnel to your own computer
+## setting up a broker 
 
-To dig a tunnel to our own computer, you'll have to run your own broker. You can find instructions on how to do this at http://tunneldigger.readthedocs.io/en/latest/server.html . Note that these instructions use the latest tunneldigger broker. See below for the (older) broker version that currently runs on sudomesh exist node.
+It is also possible to set up your own broker within the client machine or on a hosted server (such as on digitalocean). You can follow the instructions below on how to do this, adapted from http://tunneldigger.readthedocs.io/en/latest/server.html . Note that these instructions use the latest tunneldigger broker. See below for the (older) broker version that currently runs on sudomesh exist node.  
+```
+sudo apt update
+sudo apt install iproute bridge-utils libnetfilter-conntrack-dev libnfnetlink-dev libffi-dev python-dev libevent-dev ebtables python-virtualenv
+mkdir /srv/tunneldigger
+cd /srv/tunneldigger
+virtualenv env_tunneldigger
+git clone https://github.com/wlanslovenija/tunneldigger.git
+source env_tunneldigger/bin/activate
+cd tunneldigger/broker
+python setup.py install
+cp l2tp_broker.cfg.example l2tp_broker.cfg
+```
 
-
-On starting the broker with default configuration, you should see something like:
+If you are running your broker on an external server, you will need to edit the `l2tp_broker.cfg` file. Change the file by replacing the loopback address and interface with the IP and name of the public interface. It should look like so,   
 
 ```
-$sudo /srv/tunneldigger/env_tunneldigger/bin/python -m tunneldigger_broker.main /srv/tunneldigger/tunneldigger/broker/l2tp_broker.cfg
+[broker]
+; IP address the broker will listen and accept tunnels on
+address=<public_ip_of_broker>
+; Ports where the broker will listen on
+port=53,123,8942
+; Interface with that IP address
+interface=eth0
+```
+
+On starting the broker with default configuration, you should see something like:  
+
+```
+$ sudo /srv/tunneldigger/env_tunneldigger/bin/python -m tunneldigger_broker.main /srv/tunneldigger/tunneldigger/broker/l2tp_broker.cfg
 [INFO/tunneldigger.broker] Initializing the tunneldigger broker.
 [INFO/tunneldigger.broker] Maximum number of tunnels is 1024.
 [INFO/tunneldigger.broker] Tunnel identifier base is 100.
@@ -133,9 +156,11 @@ $sudo /srv/tunneldigger/env_tunneldigger/bin/python -m tunneldigger_broker.main 
 [INFO/tunneldigger.broker] Broker initialized.
 ```
 
-Now, repeat [digging a tunnel](#digging-a-tunnel) using broker config localhost:8942 . 
+Now, repeat [digging a tunnel](#digging-a-tunnel) using broker config localhost:8942 .   
 
-Now, you should see the following in the broker log:
+Or if you are testing an external broker, point your client computer at <public_ip_of_broker>:8942.  
+
+Now, you should see the following in the broker log:  
 
 ```
 [INFO/tunneldigger.broker] Creating tunnel (07105c7f-681f-4476-b5aa-5146c6e579de) with id 100.
