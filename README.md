@@ -79,13 +79,15 @@ and the file [tunneldigger-lib]/tunneldigger/client/tunneldigger should exist.
 # digging a tunnel
 Before digging a tunnel, check interfaces using ```ip addr```, there should be no l2tp interface yet. Check udp ports using ```netstat -u```, this should be empty. Check syslog using ```cat /var/log/syslog | grep td-client```, this should not contain any recent entries. 
 
+First, generate a uuid using ```uuidgen``` on the commandline: the output should be a valid [uuid](https://en.wikipedia.org/wiki/Universally_unique_identifier) .
+
 Now run 
-```sudo $PWD/tunneldigger/client/tunneldigger -b exit.sudomesh.org:8942 -u 07105c7f-681f-4476-b5aa-5146c6e579de -i l2tp0 -s $PWD/tunnel_hook.sh```
+```sudo $PWD/tunneldigger/client/tunneldigger -b exit.sudomesh.org:8942 -u [uuid] -i l2tp0 -s $PWD/tunnel_hook.sh```
 
 where:
 
 1. exit.sudomesh.org:8942 is the end of the tunnel you are attempting to dig also known as the "broker"
-2. 07105c7f-681f-4476-b5aa-5146c6e579de is some unique identifier aka a uuid
+2. [uuid] is the uuid you just generated with ```uuidgen```
 3. l2tp0 is the interface that will be created for the tunnel
 4. tunnel_hook.sh is the shell script (aka "hook") that is called by the tunnel digger on creating/destroying a session.
 
