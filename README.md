@@ -82,7 +82,7 @@ Before digging a tunnel, check interfaces using ```ip addr```, there should be n
 First, generate a uuid using ```uuidgen``` on the commandline: the output should be a valid [uuid](https://en.wikipedia.org/wiki/Universally_unique_identifier) .
 
 Now run 
-```sudo $PWD/tunneldigger/client/tunneldigger -b exit.sudomesh.org:8942 -u [uuid] -i l2tp0 -s $PWD/tunnel_hook.sh```
+```sudo $PWD/tunneldigger/client/tunneldigger -f -b exit.sudomesh.org:8942 -u [uuid] -i l2tp0 -s $PWD/tunnel_hook.sh```
 
 where:
 
@@ -90,6 +90,16 @@ where:
 2. [uuid] is the uuid you just generated with ```uuidgen```
 3. l2tp0 is the interface that will be created for the tunnel
 4. tunnel_hook.sh is the shell script (aka "hook") that is called by the tunnel digger on creating/destroying a session.
+
+On starting, you should see something like:
+
+```
+td-client: Performing broker selection...
+td-client: Broker usage of [ip tunnel digger broker]:8942: 127
+td-client: Selected [ip tunnel digger broker]:8942 as the best broker.
+td-client: Tunnel successfully established.
+td-client: Setting MTU to 1446
+```
 
 Now, open another terminal and check the status of the tunnel by:
 
