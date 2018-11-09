@@ -1,2 +1,3 @@
 tunneldigger/
 *.log
+.vagrant
