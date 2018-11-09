@@ -14,7 +14,7 @@ tmux send-keys 'sudo tail -f /var/log/syslog | grep td-client' 'C-m'
 tmux select-pane -t 0
 tmux send-keys 'echo LAB STARTING IN 10 SECONDS...' 'C-m'
 # We could also create a lower pane and leave top pane free...
-tmux send-keys 'clear && echo "Lab starting in 10 seconds..." && sleep 10 && echo "Here we go...! (^c to exit)" && /vagrant/client.sh' 'C-m'
+tmux send-keys 'clear && echo "Lab starting in 10 seconds..." && sleep 10 && echo "...here we go! (^c to exit)" && /vagrant/client.sh' 'C-m'
 # Join session. User will be in pane 0.
 #   -2 Forces screen-256color
 tmux -2 attach-session -t td_lab
