@@ -15,9 +15,7 @@ Anyway, if you have Vagrant installed, you should be able to run the following:
 ```bash
 git clone https://github.com/sudomesh/tunneldigger-lab
 cd tunneldigger-lab
-vagrant up && vagrant ssh
-cd /vagrant
-./lab.sh
+vagrant up && vagrant ssh -c /vagrant/lab.sh
 ```
 
 The various tmux panes will highlight changes to the system's network as they occur.
